@@ -12,7 +12,7 @@ body {
   color: white;
 }
 
-/* ===== СЦЕНА ===== */
+/* === СЦЕНА === */
 
 .scene {
   position: relative;
@@ -20,8 +20,7 @@ body {
   height: 100%;
 }
 
-/* ---- Місяць ---- */
-
+/* МІСЯЦЬ */
 .moon {
   position: absolute;
   top: 80px;
@@ -39,47 +38,47 @@ body {
   50%    { filter: drop-shadow(0 0 40px #fff); }
 }
 
-/* ---- Зірки ---- */
+/* ЗІРКИ — новий робочий фон */
 .stars {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url("https://i.imgur.com/JyO5F8F.png");
-  opacity: 0.4;
-  animation: starMove 40s linear infinite;
+  background: url("https://raw.githubusercontent.com/AnderMendez/stars-parallax/main/layer2.png");
+  opacity: 0.35;
+  animation: starMove 45s linear infinite;
 }
 
 @keyframes starMove {
   from { background-position: 0 0; }
-  to   { background-position: -800px -800px; }
+  to   { background-position: -1200px -800px; }
 }
 
-/* ---- Туман ---- */
+/* ТУМАН — нова текстура */
 .fog {
   position: absolute;
-  width: 120%;
+  width: 140%;
   height: 100%;
-  background: url("https://i.imgur.com/H5pF6gA.png");
-  opacity: 0.25;
-  animation: fogMove 25s linear infinite;
+  background: url("https://raw.githubusercontent.com/hharnisc/backgrounds/master/fog/fog1.png");
+  opacity: 0.2;
+  animation: fogMove 30s ease-in-out infinite;
 }
 
 @keyframes fogMove {
-  from { transform: translateX(-10%); }
-  to   { transform: translateX(10%); }
+  0% { transform: translateX(-10%); }
+  50% { transform: translateX(10%); }
+  100% { transform: translateX(-10%); }
 }
 
-/* ---- Земля ---- */
+/* ЗЕМЛЯ */
 .ground {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 150px;
+  height: 140px;
   background: linear-gradient(#1c001f, #000);
 }
 
-/* ===== GENGAR — СПРАЙТ ===== */
-
+/* === GENGAR === */
 .gengar {
   position: absolute;
   bottom: 150px;
@@ -87,40 +86,16 @@ body {
   width: 120px;
   height: 120px;
 
-  background-image: url("https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.png");
-  background-size: 360px 120px; /* 3 кадри */
+  /* Нормальний робочий спрайт з PokemonDB */
+  background-image: url("https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.gif");
+  background-size: cover;
 
   image-rendering: pixelated;
 }
 
-/* ---- Анімації ---- */
-
-@keyframes gengarWalk {
-  from { background-position: 0 0; }
-  to   { background-position: -360px 0; }
-}
-
-@keyframes gengarRun {
-  0%   { transform: translateX(0) scale(1); }
-  50%  { transform: translateX(20px) scale(1.05); }
-  100% { transform: translateX(0) scale(1); }
-}
-
-@keyframes gengarJump {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-120px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes gengarSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes gengarAttack {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(3) drop-shadow(0 0 20px purple); }
-  100% { filter: brightness(1); }
+/* IDLE */
+.idle {
+  animation: idleFloat 3s ease-in-out infinite;
 }
 
 @keyframes idleFloat {
@@ -128,33 +103,51 @@ body {
   50% { transform: translateY(-10px); }
 }
 
-/* ---- режими ---- */
-
-.idle {
-  animation: idleFloat 3s ease-in-out infinite;
-}
-
+/* WALK — фейкова циклічна анімація */
 .walk {
-  animation: gengarWalk 0.5s steps(3) infinite;
+  animation: idleFloat 0.8s infinite;
+  filter: hue-rotate(10deg);
 }
 
+/* RUN */
 .run {
-  animation: gengarWalk 0.25s steps(3) infinite, gengarRun 0.5s ease-in-out infinite;
+  animation: idleFloat 0.4s infinite;
+  transform: scale(1.1);
 }
 
+/* JUMP */
 .jump {
   animation: gengarJump 1s ease-in-out;
 }
 
+@keyframes gengarJump {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-150px); }
+  100% { transform: translateY(0); }
+}
+
+/* SPIN */
 .spin {
-  animation: gengarSpin 1.2s linear infinite;
+  animation: spin 1.2s linear infinite;
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ATTACK */
 .attack {
-  animation: gengarAttack 0.4s ease-in-out infinite;
+  animation: attackBlink 0.4s ease-in-out infinite;
 }
 
-/* ===== ПАНЕЛЬ ===== */
+@keyframes attackBlink {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(2) drop-shadow(0 0 25px purple); }
+  100% { filter: brightness(1); }
+}
+
+/* === ПАНЕЛЬ === */
 
 .panel {
   position: absolute;
@@ -162,7 +155,7 @@ body {
   left: 20px;
   background: rgba(20,20,30,0.5);
   padding: 20px;
-  width: 260px;
+  width: 280px;
   border-radius: 10px;
   backdrop-filter: blur(6px);
 }
@@ -173,7 +166,7 @@ body {
   padding: 10px;
   margin: 8px 0;
   text-align: center;
-  background: #7a00ff;
+  background: #9b00ff;
   border: none;
   color: white;
   border-radius: 8px;
@@ -181,7 +174,7 @@ body {
 }
 
 .btn:hover {
-  background: #b300ff;
+  background: #c400ff;
 }
 
 .pause {

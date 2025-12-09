@@ -13,7 +13,6 @@ body {
 }
 
 /* === СЦЕНА === */
-
 .scene {
   position: relative;
   width: 100%;
@@ -23,50 +22,77 @@ body {
 /* МІСЯЦЬ */
 .moon {
   position: absolute;
-  top: 80px;
-  right: 150px;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, #ffffff, #cfcfcf, #aaaaaa);
+  top: 60px;
+  right: 120px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, #ffffff, #d8d8d8, #b8b8b8);
   border-radius: 50%;
-  filter: blur(1px);
-  animation: moonGlow 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px #fff);
+  animation: moonGlow 6s ease-in-out infinite;
 }
 
 @keyframes moonGlow {
-  0%,100% { filter: drop-shadow(0 0 20px #fff); }
-  50%    { filter: drop-shadow(0 0 40px #fff); }
+  0%,100% { filter: drop-shadow(0 0 25px #fff); }
+  50%    { filter: drop-shadow(0 0 60px #fff); }
 }
 
-/* ЗІРКИ — новий робочий фон */
+/* ЗІРКИ */
 .stars {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url("https://raw.githubusercontent.com/AnderMendez/stars-parallax/main/layer2.png");
-  opacity: 0.35;
+  background-size: cover;
+  opacity: 0.3;
   animation: starMove 45s linear infinite;
 }
 
 @keyframes starMove {
   from { background-position: 0 0; }
-  to   { background-position: -1200px -800px; }
+  to   { background-position: -800px -600px; }
 }
 
-/* ТУМАН — нова текстура */
+/* ХМАРИ */
+.cloud {
+  position: absolute;
+  width: 600px;
+  height: 250px;
+  background: radial-gradient(circle, #ffffff10, #ffffff00 70%);
+  filter: blur(40px);
+  opacity: 0.25;
+}
+
+.cloud1 {
+  top: 200px;
+  left: -400px;
+  animation: cloudMove 50s linear infinite;
+}
+
+.cloud2 {
+  top: 350px;
+  left: -600px;
+  animation: cloudMove 65s linear infinite;
+}
+
+@keyframes cloudMove {
+  from { transform: translateX(-700px); }
+  to   { transform: translateX(1800px); }
+}
+
+/* ТУМАН */
 .fog {
   position: absolute;
-  width: 140%;
-  height: 100%;
-  background: url("https://raw.githubusercontent.com/hharnisc/backgrounds/master/fog/fog1.png");
-  opacity: 0.2;
-  animation: fogMove 30s ease-in-out infinite;
+  bottom: 0;
+  width: 130%;
+  height: 250px;
+  background: radial-gradient(circle at 50% 100%, #ffffff18, #ffffff00 70%);
+  animation: fogFloat 8s ease-in-out infinite alternate;
 }
 
-@keyframes fogMove {
-  0% { transform: translateX(-10%); }
-  50% { transform: translateX(10%); }
-  100% { transform: translateX(-10%); }
+@keyframes fogFloat {
+  from { opacity: 0.2; transform: translateY(10px); }
+  to   { opacity: 0.4; transform: translateY(-10px); }
 }
 
 /* ЗЕМЛЯ */
@@ -74,72 +100,68 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 140px;
-  background: linear-gradient(#1c001f, #000);
+  height: 150px;
+  background: linear-gradient(#1b001d, #000);
 }
 
 /* === GENGAR === */
 .gengar {
   position: absolute;
   bottom: 150px;
-  left: calc(50% - 60px);
-  width: 120px;
-  height: 120px;
+  left: calc(50% - 70px);
+  width: 140px;
+  height: 140px;
 
-  /* Нормальний робочий спрайт з PokemonDB */
   background-image: url("https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.gif");
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
 
   image-rendering: pixelated;
 }
 
-/* IDLE */
-.idle {
-  animation: idleFloat 3s ease-in-out infinite;
-}
+/* Idle */
+.idle { animation: idleFloat 2.5s ease-in-out infinite; }
 
 @keyframes idleFloat {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-12px); }
 }
 
-/* WALK — фейкова циклічна анімація */
-.walk {
-  animation: idleFloat 0.8s infinite;
-  filter: hue-rotate(10deg);
+/* Walk */
+.walk { animation: walkAnim 0.7s ease-in-out infinite; }
+
+@keyframes walkAnim {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
 }
 
-/* RUN */
-.run {
-  animation: idleFloat 0.4s infinite;
-  transform: scale(1.1);
+/* Run */
+.run { animation: runAnim 0.35s ease-in-out infinite; }
+
+@keyframes runAnim {
+  0%,100% { transform: translateY(0) scale(1.1); }
+  50% { transform: translateY(-15px) scale(1.2); }
 }
 
-/* JUMP */
-.jump {
-  animation: gengarJump 1s ease-in-out;
-}
+/* Jump */
+.jump { animation: gengarJump 1s ease-in-out; }
 
 @keyframes gengarJump {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-150px); }
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-160px); }
   100% { transform: translateY(0); }
 }
 
-/* SPIN */
-.spin {
-  animation: spin 1.2s linear infinite;
-}
+/* Spin */
+.spin { animation: spin 1.2s linear infinite; }
 
 @keyframes spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-/* ATTACK */
-.attack {
-  animation: attackBlink 0.4s ease-in-out infinite;
-}
+/* Attack */
+.attack { animation: attackBlink 0.4s ease-in-out infinite; }
 
 @keyframes attackBlink {
   0% { filter: brightness(1); }
@@ -148,14 +170,13 @@ body {
 }
 
 /* === ПАНЕЛЬ === */
-
 .panel {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: rgba(20,20,30,0.5);
+  background: rgba(30, 0, 40, 0.55);
   padding: 20px;
-  width: 280px;
+  width: 260px;
   border-radius: 10px;
   backdrop-filter: blur(6px);
 }
@@ -165,8 +186,7 @@ body {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
-  text-align: center;
-  background: #9b00ff;
+  background: #ad00ff;
   border: none;
   color: white;
   border-radius: 8px;
@@ -174,12 +194,10 @@ body {
 }
 
 .btn:hover {
-  background: #c400ff;
+  background: #d000ff;
 }
 
 .pause {
-  background: #d40000;
+  background: #d30000;
 }
-.pause:hover {
-  background: #ff0000;
-}
+.pause:hover { background: #ff0000; }

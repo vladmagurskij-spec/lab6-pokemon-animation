@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle,#2f004f,#080010);
+  color: white;
+}
+
+/* ===== СЦЕНА ===== */
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Місяць ---- */
+
+.moon {
+  position: absolute;
+  top: 80px;
+  right: 150px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffffff, #cfcfcf, #aaaaaa);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: moonGlow 5s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+  0%,100% { filter: drop-shadow(0 0 20px #fff); }
+  50%    { filter: drop-shadow(0 0 40px #fff); }
+}
+
+/* ---- Зірки ---- */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("https://i.imgur.com/JyO5F8F.png");
+  opacity: 0.4;
+  animation: starMove 40s linear infinite;
+}
+
+@keyframes starMove {
+  from { background-position: 0 0; }
+  to   { background-position: -800px -800px; }
+}
+
+/* ---- Туман ---- */
+.fog {
+  position: absolute;
+  width: 120%;
+  height: 100%;
+  background: url("https://i.imgur.com/H5pF6gA.png");
+  opacity: 0.25;
+  animation: fogMove 25s linear infinite;
+}
+
+@keyframes fogMove {
+  from { transform: translateX(-10%); }
+  to   { transform: translateX(10%); }
+}
+
+/* ---- Земля ---- */
+.ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(#1c001f, #000);
+}
+
+/* ===== GENGAR — СПРАЙТ ===== */
+
+.gengar {
+  position: absolute;
+  bottom: 150px;
+  left: calc(50% - 60px);
+  width: 120px;
+  height: 120px;
+
+  background-image: url("https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.png");
+  background-size: 360px 120px; /* 3 кадри */
+
+  image-rendering: pixelated;
+}
+
+/* ---- Анімації ---- */
+
+@keyframes gengarWalk {
+  from { background-position: 0 0; }
+  to   { background-position: -360px 0; }
+}
+
+@keyframes gengarRun {
+  0%   { transform: translateX(0) scale(1); }
+  50%  { transform: translateX(20px) scale(1.05); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+@keyframes gengarJump {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-120px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes gengarSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes gengarAttack {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(3) drop-shadow(0 0 20px purple); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes idleFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ---- режими ---- */
+
+.idle {
+  animation: idleFloat 3s ease-in-out infinite;
+}
+
+.walk {
+  animation: gengarWalk 0.5s steps(3) infinite;
+}
+
+.run {
+  animation: gengarWalk 0.25s steps(3) infinite, gengarRun 0.5s ease-in-out infinite;
+}
+
+.jump {
+  animation: gengarJump 1s ease-in-out;
+}
+
+.spin {
+  animation: gengarSpin 1.2s linear infinite;
+}
+
+.attack {
+  animation: gengarAttack 0.4s ease-in-out infinite;
+}
+
+/* ===== ПАНЕЛЬ ===== */
+
+.panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(20,20,30,0.5);
+  padding: 20px;
+  width: 260px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  text-align: center;
+  background: #7a00ff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #b300ff;
+}
+
+.pause {
+  background: #d40000;
+}
+.pause:hover {
+  background: #ff0000;
+}

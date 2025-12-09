@@ -7,6 +7,9 @@ let paused = false;
 buttons.forEach(btn => {
     btn.addEventListener("click", () => {
         gengar.className = "gengar " + btn.dataset.mode;
+        gengar.style.animationPlayState = "running";
+        paused = false;
+        pauseBtn.textContent = "Пауза";
     });
 });
 

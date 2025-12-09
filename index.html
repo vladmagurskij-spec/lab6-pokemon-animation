@@ -1,301 +1,106 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <title>Лабораторна робота №6 – Анімація спрайта Покемона</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    /* ====== БАЗА ====== */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабораторна робота №6 — Gengar Animation</title>
+
+<style>
     * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #2b1055 0%, #090014 55%, #000 100%);
-      color: #f8fafc;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 16px;
+        height: 100vh;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #1a1a1a, #000);
+        font-family: Arial, sans-serif;
     }
 
-    .scene {
-      position: relative;
-      width: 900px;
-      max-width: 100%;
-      height: 520px;
-      background: linear-gradient(#050010 0 55%, #020308 55%);
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-      overflow: hidden;
-      border: 2px solid #4b5563;
-    }
-
-    /* ====== ТЕКСТОВА ЧАСТИНА (опис лабораторної) ====== */
-    .panel {
-      position: absolute;
-      z-index: 5;
-      inset: 24px 24px auto 24px;
-      max-width: 360px;
-      background: rgba(15, 23, 42, 0.86);
-      border-radius: 12px;
-      padding: 18px 20px;
-      border: 1px solid rgba(148,163,184,0.4);
-      backdrop-filter: blur(6px);
-    }
-
-    .panel h1 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .panel h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: #a5b4fc;
-    }
-
-    .panel p {
-      font-size: 13px;
-      line-height: 1.5;
-      margin-bottom: 6px;
-      color: #e5e7eb;
-    }
-
-    .panel ul {
-      margin-left: 16px;
-      font-size: 13px;
-      line-height: 1.4;
-      color: #e5e7eb;
-    }
-
-    .panel ul li {
-      margin-bottom: 4px;
-    }
-
-    .btn-toggle {
-      margin-top: 10px;
-      padding: 6px 14px;
-      font-size: 12px;
-      border-radius: 999px;
-      border: 1px solid #6366f1;
-      background: rgba(15,23,42,0.9);
-      color: #e5e7eb;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    .btn-toggle:hover {
-      background: #4f46e5;
-      transform: translateY(-1px);
-    }
-
-    /* ====== ФОН: ЗІРКИ, МІСЯЦЬ, ХМАРИ ====== */
-
-    .stars {
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.5), transparent),
-        radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.4), transparent);
-      background-repeat: repeat;
-      background-size: 200px 200px;
-      opacity: 0.7;
-      animation: starsMove 40s linear infinite;
-    }
-
-    @keyframes starsMove {
-      from { transform: translate3d(0,0,0); }
-      to   { transform: translate3d(-200px,-200px,0); }
-    }
-
-    .moon {
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #f9fafb, #cbd5f5 60%, #4b5563 100%);
-      top: 60px;
-      right: 120px;
-      box-shadow: 0 0 30px rgba(248,250,252,0.7);
-      z-index: 1;
-    }
+    /* ----------- ANIMATED BACKGROUND ------------ */
 
     .fog {
-      position: absolute;
-      bottom: 80px;
-      left: -40%;
-      width: 180%;
-      height: 180px;
-      background: radial-gradient(circle at 50% 0%, rgba(148,163,184,0.55), transparent 60%);
-      filter: blur(8px);
-      opacity: 0.7;
-      animation: fogMove 35s linear infinite;
-      z-index: 1;
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: url("https://i.imgur.com/O7MstqC.png");
+        opacity: 0.12;
+        animation: fogMove 25s linear infinite;
     }
 
     @keyframes fogMove {
-      from { transform: translateX(0); }
-      to   { transform: translateX(40%); }
+        0%   { transform: translate(-10%, -10%); }
+        50%  { transform: translate(10%, 10%); }
+        100% { transform: translate(-10%, -10%); }
     }
 
-    .ground {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 140px;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(96,165,250,0.16), transparent 50%),
-        radial-gradient(circle at 90% 0%, rgba(248,113,113,0.22), transparent 55%),
-        linear-gradient(#020617 0, #020617 50%, #000 100%);
-      box-shadow: inset 0 20px 60px rgba(0,0,0,0.85);
+    .light {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(130,0,255,0.25), transparent 70%);
+        animation: pulseLight 6s ease-in-out infinite;
     }
 
-    .hill {
-      position: absolute;
-      bottom: 70px;
-      width: 260px;
-      height: 120px;
-      background: radial-gradient(circle at 50% 100%, #020617 0, #000 70%);
-      border-radius: 50%;
-      z-index: 1;
+    @keyframes pulseLight {
+        0%   { opacity: 0.15; }
+        50%  { opacity: 0.5; }
+        100% { opacity: 0.15; }
     }
 
-    .hill.left { left: -40px; }
-    .hill.right { right: -60px; }
-
-    /* ====== ГЕНГАР – СПРАЙТ ====== */
-
-    .gengar-wrap {
-      position: absolute;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 3;
-    }
-
-    .gengar-shadow {
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      width: 90px;
-      height: 22px;
-      background: radial-gradient(circle at 50% 50%, rgba(15,23,42,0.9), transparent 70%);
-      transform: translateX(-50%);
-      opacity: 0.85;
-      filter: blur(2px);
-    }
+    /* ----------- GENGAR SPRITE ------------ */
 
     .gengar {
-      width: 96px;   /* розмір одного кадру */
-      height: 96px;
-      image-rendering: pixelated;
-
-      /* ⚠️ ТУТ ПОВИНЕН БУТИ СПРАЙТ З POKEMONDB
-         СКАЧАЙ, НАПРИКЛАД, ГЕНГАРА 3–4 КАДРИ В РЯД
-         І ПОКЛАДИ В:  img/gengar-sprite.png */
-      background-image: url("img/gengar-sprite.png");
-      background-repeat: no-repeat;
-      background-position: 0 0;
-      background-size: 384px 96px; /* 4 кадри по 96px по горизонталі */
-
-      animation: gengarWalk 0.7s steps(4) infinite,
-                 gengarFloat 3s ease-in-out infinite;
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background-image: url("https://img.pokemondb.net/sprites/ruby-sapphire/normal/gengar.png");
+        background-size: cover;
+        image-rendering: pixelated;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: gengarFloat 3s ease-in-out infinite;
     }
 
-    /* ПРОКРУТКА КАДРІВ СПРАЙТА */
-    @keyframes gengarWalk {
-      from { background-position:   0    0; }
-      to   { background-position: -384px 0; }
-    }
-
-    /* ЛЕГКЕ ПІДСТРИБУВАННЯ / ПЛАВАННЯ */
     @keyframes gengarFloat {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
+        0%   { transform: translate(-50%, 0); }
+        50%  { transform: translate(-50%, -20px); }
+        100% { transform: translate(-50%, 0); }
     }
 
-    /* ====== РЕЖИМ ПАУЗИ (по кнопці) ====== */
+    /* ----------- TEXT ------------ */
 
-    .paused .gengar,
-    .paused .fog,
-    .paused .stars {
-      animation-play-state: paused;
+    .title {
+        position: absolute;
+        top: 30px;
+        width: 100%;
+        text-align: center;
+        color: #b37bff;
+        text-shadow: 0 0 15px #5000d0;
+        font-size: 36px;
+        letter-spacing: 2px;
+        animation: titleGlow 3s ease-in-out infinite;
     }
 
-    .paused .btn-toggle::after {
-      content: " (пауза)";
-      opacity: 0.8;
+    @keyframes titleGlow {
+        0%, 100% { text-shadow: 0 0 10px #6d00ff; }
+        50% { text-shadow: 0 0 25px #bb71ff; }
     }
 
-    /* Трохи адаптиву */
-    @media (max-width: 768px) {
-      .scene {
-        height: 520px;
-      }
-      .panel {
-        inset: 16px 16px auto 16px;
-      }
-      .panel h1 {
-        font-size: 18px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-<div class="scene" id="scene">
-  <!-- Текстова панель з описом вимог -->
-  <section class="panel">
-    <h1>Лабораторна робота №6</h1>
-    <h2>Анімація спрайта Покемона (Генгар)</h2>
-    <p><strong>Мета:</strong> попрацювати зі спрайтами, анімацією сцени та чистим CSS.</p>
-    <p><strong>Обов’язково реалізовано:</strong></p>
-    <ul>
-      <li>Анімація спрайта Генгара за допомогою <code>@keyframes</code> + <code>background-position</code> (sprite sheet).</li>
-      <li>Анімація фону (зоряне небо, туман, паралакс пагорбів).</li>
-      <li>Чистий CSS для всієї анімації (JS лише для кнопки паузи).</li>
-    </ul>
+<div class="fog"></div>
+<div class="light"></div>
 
-    <button class="btn-toggle" id="toggleBtn">Поставити/зняти паузу</button>
-  </section>
+<h1 class="title">Лабораторна робота №6 — Анімація зі спрайтами (Gengar)</h1>
 
-  <!-- Фон -->
-  <div class="stars"></div>
-  <div class="moon"></div>
-  <div class="fog"></div>
-  <div class="ground"></div>
-  <div class="hill left"></div>
-  <div class="hill right"></div>
-
-  <!-- Генгар -->
-  <div class="gengar-wrap">
-    <div class="gengar-shadow"></div>
-    <div class="gengar" title="Gengar"></div>
-  </div>
-</div>
-
-<script>
-  // Мінімальний JS: пауза/відновлення анімації
-  const scene = document.getElementById('scene');
-  const btn = document.getElementById('toggleBtn');
-
-  btn.addEventListener('click', () => {
-    scene.classList.toggle('paused');
-  });
-</script>
+<div class="gengar"></div>
 
 </body>
 </html>

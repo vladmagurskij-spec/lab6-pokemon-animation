@@ -4,13 +4,13 @@
   box-sizing: border-box;
 }
 
+/* === Анімоване небо === */
 body {
   height: 100vh;
   overflow: hidden;
   font-family: Arial, sans-serif;
   color: white;
 
-  /* НОВЕ: анімоване небо */
   background: linear-gradient(180deg, #160028, #2f004f, #080010);
   animation: skyShift 12s ease-in-out infinite alternate;
 }
@@ -28,7 +28,23 @@ body {
   height: 100%;
 }
 
-/* МІСЯЦЬ */
+/* === БЛИСКАВКА === */
+.lightning {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.8);
+  opacity: 0;
+  pointer-events: none;
+  animation: lightningFlash 12s infinite;
+}
+
+@keyframes lightningFlash {
+  0%,97%,100% { opacity: 0; }
+  98% { opacity: 0.4; }
+  99% { opacity: 0.9; }
+}
+
+/* === МІСЯЦЬ === */
 .moon {
   position: absolute;
   top: 60px;
@@ -46,7 +62,7 @@ body {
   50%    { filter: drop-shadow(0 0 60px #fff); }
 }
 
-/* ЗІРКИ — тепер сильно видимі */
+/* === ЗІРКИ === */
 .stars {
   position: absolute;
   width: 100%;
@@ -56,7 +72,6 @@ body {
     radial-gradient(circle, rgba(255,255,255,0.7) 1.5px, transparent 3px),
     radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 3px);
   background-size: 250px 250px, 350px 350px, 450px 450px;
-
   animation: starMove 60s linear infinite;
   opacity: 0.55;
 }
@@ -66,7 +81,7 @@ body {
   to   { transform: translateY(-500px); }
 }
 
-/* ХМАРИ — плавний паралакс */
+/* === ХМАРИ === */
 .cloud {
   position: absolute;
   width: 700px;
@@ -93,7 +108,7 @@ body {
   to   { transform: translateX(2000px); }
 }
 
-/* ТУМАН — повільний рух + більший ефект */
+/* === ТУМАН === */
 .fog {
   position: absolute;
   bottom: 0;
@@ -109,13 +124,68 @@ body {
   to   { transform: translateX(6%) translateY(-10px); opacity: 0.45; }
 }
 
-/* ЗЕМЛЯ */
+/* === ГОРИЗОНТАЛЬНИЙ ТУМАН === */
+.horizon {
+  position: absolute;
+  bottom: 150px;
+  width: 100%;
+  height: 120px;
+  background: radial-gradient(circle at 50% 100%, rgba(0,0,0,0.65), rgba(0,0,0,0));
+  animation: horizonFade 10s ease-in-out infinite alternate;
+  opacity: 0.5;
+}
+
+@keyframes horizonFade {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.7; }
+}
+
+/* === GASTLY === */
+.gastly {
+  position: absolute;
+  top: 200px;
+  left: -200px;
+  width: 120px;
+  height: 120px;
+  background-image: url("https://img.pokemondb.net/sprites/black-white/anim/normal/gastly.gif");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  filter: blur(1px);
+  animation: gastlyFly 18s linear infinite;
+}
+
+@keyframes gastlyFly {
+  0% { transform: translateX(-300px) translateY(0); opacity: 0.1; }
+  20% { opacity: 0.5; }
+  50% { transform: translateX(1200px) translateY(-40px); opacity: 0.4; }
+  80% { opacity: 0.3; }
+  100% { transform: translateX(1600px) translateY(20px); opacity: 0; }
+}
+
+/* === ЗЕМЛЯ === */
 .ground {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 150px;
   background: linear-gradient(#1b001d, #000);
+}
+
+/* === ТІНЬ GENGAR === */
+.shadow {
+  position: absolute;
+  bottom: 140px;
+  left: calc(50% - 50px);
+  width: 100px;
+  height: 25px;
+  background: radial-gradient(circle, rgba(0,0,0,0.6), transparent);
+  animation: shadowPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes shadowPulse {
+  0%,100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(0.9); opacity: 0.3; }
 }
 
 /* === GENGAR === */

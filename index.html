@@ -2,46 +2,95 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Лабораторна робота №6 — Анімація Pokémon</title>
-<link rel="stylesheet" href="style.css">
+<title>Лабораторна №6 — Анімація Gengar</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #3a0055, #0a0014);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Місяць */
+    .moon {
+        position: absolute;
+        top: 50px;
+        right: 150px;
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, #ffffff, #d7d7ff);
+        border-radius: 50%;
+        box-shadow: 0 0 40px #ffffffaa;
+        animation: moonGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes moonGlow {
+        from { box-shadow: 0 0 20px #ffffff55; }
+        to   { box-shadow: 0 0 40px #ffffff; }
+    }
+
+    /* Gengar персонаж */
+    .gengar {
+        width: 80px;
+        height: 80px;
+        background-image: url('https://img.pokemondb.net/sprites/ruby-sapphire/normal/gengar.png');
+        image-rendering: pixelated;
+        position: absolute;
+        bottom: 100px;
+        animation: idle 1.2s infinite ease-in-out;
+    }
+
+    /* Стоїть — легке підстрибування */
+    @keyframes idle {
+        0%   { transform: translateY(0); }
+        50%  { transform: translateY(-8px); }
+        100% { transform: translateY(0); }
+    }
+
+    /* Біг — переміщення вправо */
+    @keyframes walk {
+        0%   { transform: translateX(0) scaleX(1); }
+        50%  { transform: translateX(150px) scaleX(1); }
+        100% { transform: translateX(0) scaleX(1); }
+    }
+
+    /* Стрибок */
+    @keyframes jump {
+        0%   { transform: translateY(0); }
+        40%  { transform: translateY(-120px); }
+        70%  { transform: translateY(-120px); }
+        100% { transform: translateY(0); }
+    }
+
+    /* Атака — обертання + збільшення */
+    @keyframes attack {
+        0%   { transform: scale(1) rotate(0deg); }
+        50%  { transform: scale(1.4) rotate(360deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* Обрати анімацію тут ↓↓↓ */
+    .gengar.walking  { animation: walk 2s infinite linear; }
+    .gengar.jump     { animation: jump 1.2s infinite ease-out; }
+    .gengar.attack   { animation: attack 1.5s infinite ease-in-out; }
+</style>
 </head>
 <body>
 
-<div class="scene">
+<div class="moon"></div>
 
-    <!-- Місяць -->
-    <div class="moon"></div>
+<!-- ОБЕРИ АНІМАЦІЮ ТУТ -->
+<div class="gengar attack"></div>
+<!-- ВАРІАНТИ:
+     <div class="gengar"></div>           — стоїть
+     <div class="gengar walking"></div>   — біг
+     <div class="gengar jump"></div>      — стрибок
+     <div class="gengar attack"></div>    — атака
+-->
 
-    <!-- Зірки -->
-    <div class="stars"></div>
-
-    <!-- Туман -->
-    <div class="fog"></div>
-
-    <!-- Земля -->
-    <div class="ground"></div>
-
-    <!-- Gengar -->
-    <div class="gengar idle" id="gengar"></div>
-
-</div>
-
-<!-- Панель керування -->
-<div class="panel">
-    <h2>Лабораторна робота №6</h2>
-    <p>Анімація спрайтів Pokémon (Gengar)</p>
-
-    <button class="btn" data-mode="idle">Стояти</button>
-    <button class="btn" data-mode="walk">Ходьба</button>
-    <button class="btn" data-mode="run">Біг</button>
-    <button class="btn" data-mode="jump">Стрибок</button>
-    <button class="btn" data-mode="attack">Атака</button>
-    <button class="btn" data-mode="spin">Обертання</button>
-
-    <button class="btn pause" id="pauseBtn">Пауза</button>
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
